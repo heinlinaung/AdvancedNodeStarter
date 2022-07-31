@@ -7,7 +7,7 @@ beforeEach(async () => {
   await page.goto('localhost:3000')
 })
 
-beforeEach(async () => {
+afterEach(async () => {
   await browser.close()
 })
 
