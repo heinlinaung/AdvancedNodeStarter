@@ -34,4 +34,28 @@ describe('When logged in', async () => {
       expect(contentError).toEqual('You must provide a value')
     })
   })
+
+  describe('And using valid inputs', async () => {
+    beforeEach(async () => {
+      await page.type('.title input', 'My title')
+      await page.type('.content input', 'My content')
+      await page.click('form button')
+    })
+
+    test('Submitting takes user to review screen', async () => {
+      const confirmText = await page.getContentOf('form h5')
+      expect(confirmText).toEqual('Please confirm your entries')
+    })
+
+    test('Submitting then saving takes user to index page', async () => {
+      await page.click('button.green')
+      await page.waitFor('.card')
+
+      const title = await page.getContentOf('.card-title')
+      const content = await page.getContentOf('p')
+
+      expect(title).toEqual('My title')
+      expect(content).toEqual('My content')
+    })
+  })
 })
