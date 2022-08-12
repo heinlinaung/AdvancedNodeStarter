@@ -59,3 +59,23 @@ describe('When logged in', async () => {
     })
   })
 })
+
+describe('When User is not logged in', async () => {
+  const actions = [
+    {
+      method: 'get',
+      path: '/api/blogs'
+    },
+    {
+      method: 'post',
+      path: '/api/blogs',
+      data: { title: 'My title', content: 'My content' }
+    }
+  ]
+  test('Blog CRUD prohabited', async () => {
+    const results = await page.execRequests(actions)
+    for (const result of results) {
+      expect(result).toEqual({ error: 'You must log in!' })
+    }
+  })
+})
